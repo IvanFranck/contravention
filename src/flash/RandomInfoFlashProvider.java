@@ -6,6 +6,8 @@
 package flash;
 
 import java.util.Random;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -61,6 +63,11 @@ public class RandomInfoFlashProvider {
     
     
     // determine s'il y a ewcès de vitesse
+
+    /**
+     *
+     * @return boolean
+     */
     public boolean excesVitesse(){
         boolean verdict = false;
         
@@ -83,6 +90,9 @@ public class RandomInfoFlashProvider {
         return verdict;
     }
     
+    /**
+     *
+     */
     public void afficher(){
         System.out.println("vitesse : " + vitesse + "\n");
         System.out.println("matricule : " + matricule);
@@ -92,5 +102,54 @@ public class RandomInfoFlashProvider {
         }
     }
     
+    /**
+     *
+     * @return JSONObject
+     */
+    public JSONObject sendJson(){
+        
+        // création d'un objet json
+        JSONObject json = new JSONObject();
+        
+        // nouvelle ligne dans le json ( "matricule": matricule généré aléatoirement)
+        json.put("matricule", matricule);
+        
+        // nouvelle ligen dans le json (vitesse)
+        json.put("vitesse", vitesse);
+        
+        // création d'un nouvel onjet json (tableau d'infractions)
+        JSONObject infractionsJson = new JSONObject();
+        
+        // ajout nouvelle ligne dans le json des infractions ( infraction exces de vitesse)
+        infractionsJson.put(0, this.excesVitesse());
+        
+        // ajouts des autres ligne d'infractions  de facon aléatoire
+        for(int i=0; i<this.infractions.length; i++){           
+            infractionsJson.put(i+1,this.infractions[i]);
+        }
+        
+        // insertion du tableau d'infractions dans le json global
+        json.put("infractions", infractionsJson);        
+
+        return json;
+        
+        /*
+    
+    {
+        "matricule": CE 223 FX,
+        "vitesse": 123,
+        "infractions":[
+            1:true,
+            2:false,
+            .
+            .
+            .
+            n:true
+        ]
+    }
+        
+        */
+    }
+  
     
 }
