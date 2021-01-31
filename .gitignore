@@ -1,8 +1,8 @@
-/build/
-/src/flash/JsonFlashClient.java
-/src/contravention/jsonServer.java
-/src/contravention/jsonServer.java
+
 # netbeans specific # 
+/src/contravention/jsonServer.java
+/src/flash/Flash.java
+/build/
 private/
 build/
 dist/
@@ -19,3 +19,6 @@ nb-configuration.xml
 *.jar
 *.war
 *.ear
+/src/Automobiliste/AutomobileTableOperation.java
+/src/Automobiliste/
+/src/SysCentral/
