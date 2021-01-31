@@ -1,0 +1,20 @@
+
+# netbeans specific # 
+/src/contravention/jsonServer.java
+/src/flash/Flash.java
+/build/
+private/
+build/
+dist/
+nbbuild/
+nbdist/
+ndactions.xml
+nb-configuration.xml
+
+# class Files #
+*.class
+
+
+/src/Automobiliste/AutomobileTableOperation.java
+/src/Automobiliste/
+/src/SysCentral/

@@ -1,0 +1,20 @@
+/build/
+
+
+tbeans specific # 
+private/
+build/
+dist/
+nbbuild/
+nbdist/
+ndactions.xml
+nb-configuration.xml
+
+# class Files #
+*.class
+
+
+# pachage files #
+*.jar
+*.war
+*.ear
