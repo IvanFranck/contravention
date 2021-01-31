@@ -15,10 +15,6 @@ nb-configuration.xml
 *.class
 
 
-# pachage files #
-*.jar
-*.war
-*.ear
 /src/Automobiliste/AutomobileTableOperation.java
 /src/Automobiliste/
 /src/SysCentral/
