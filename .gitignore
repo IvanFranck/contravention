@@ -14,7 +14,3 @@ nb-configuration.xml
 # class Files #
 *.class
 
-
-/src/Automobiliste/AutomobileTableOperation.java
-/src/Automobiliste/
-/src/SysCentral/
