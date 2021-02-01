@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import SysCentral.AmandeTableOperations;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.RowId;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ public class Automobiliste extends Application {
     private final boolean isTest = true;
     
     @Override
-    public void start(Stage fen) {
+    public void start(Stage fen) throws NoSuchAlgorithmException {
        
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
