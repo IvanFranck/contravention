@@ -9,7 +9,6 @@ package Automobiliste;
 import SysCentral.BDConnection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Date;
 
 
 /**

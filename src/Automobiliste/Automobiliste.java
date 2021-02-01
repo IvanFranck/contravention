@@ -19,6 +19,8 @@ import SysCentral.AmandeTableOperations;
 import java.sql.ResultSet;
 import java.sql.RowId;
 import java.sql.SQLException;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 
 /**
  *
@@ -44,13 +46,21 @@ public class Automobiliste extends Application {
         Text title = new Text("Paiment");
         fen.setTitle("interface paiement");
         
-        grid.add(title, 0,0, 3,1);
+        grid.add(title, 0,0, 6,1);
+        
+        Label matriculeLabel = new Label("matricule");
+        Label mdpLabel = new Label("mot de passe");
         
         TextField matriculeInput = new TextField();
-        grid.add(matriculeInput, 0, 1, 2, 1);
+        grid.add(matriculeInput, 1, 1, 5, 1);
+        grid.add(matriculeLabel, 0, 1);
+        
+        PasswordField mdp = new PasswordField();
+        grid.add(mdp,1 ,2, 5,1 );
+        grid.add(mdpLabel, 0, 2);
         
         Button logInBtn = new Button ("Log in");
-        grid.add(logInBtn, 3, 1, 1, 1);
+        grid.add(logInBtn, 3, 4, 1, 1);
         
         
         fen.show();
