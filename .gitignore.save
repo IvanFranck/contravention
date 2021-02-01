@@ -1,8 +1,7 @@
-
-# netbeans specific # 
-/src/contravention/jsonServer.java
-/src/flash/Flash.java
 /build/
+
+
+tbeans specific # 
 private/
 build/
 dist/
@@ -14,3 +13,8 @@ nb-configuration.xml
 # class Files #
 *.class
 
+
+# pachage files #
+*.jar
+*.war
+*.ear
