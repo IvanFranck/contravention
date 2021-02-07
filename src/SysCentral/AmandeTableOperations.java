@@ -19,7 +19,7 @@ public class AmandeTableOperations extends BDConnection {
     private final String table = "amande";
     private PreparedStatement pst;
     
-    public AmandeTableOperations(boolean isTest) throws SQLException{
+    public AmandeTableOperations(boolean isTest) throws SQLException, ClassNotFoundException{
         // appel de la classe mère pour la connexin à la base de données
         super(isTest);
     }
@@ -62,7 +62,7 @@ public class AmandeTableOperations extends BDConnection {
     
     public ResultSet selection (String matricule) throws SQLException{
         // sekection de la ligne de al table Amande dont le matricule correspond à celui entré
-        String requete = "SELECT * FROM "+table+" WHERE matricule = \'matricule\'";
+        String requete = "SELECT * FROM "+table;
         
          //definition de de la requete préparée grace au connecteur de la classe mère
         this.prepareStatement(requete);

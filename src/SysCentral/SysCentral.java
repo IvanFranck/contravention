@@ -122,7 +122,7 @@ public class SysCentral extends Application implements Runnable {
             System.out.println("echec connexion serveur");
         } catch (SQLException ex) {
             System.out.println("impossible de se connecter à la BD : "+ex);
-        } catch (ParseException ex) {
+        } catch (ParseException | ClassNotFoundException ex) {
             Logger.getLogger(SysCentral.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

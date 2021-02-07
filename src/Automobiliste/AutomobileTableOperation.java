@@ -8,6 +8,7 @@ package Automobiliste;
 
 import SysCentral.BDConnection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -21,7 +22,7 @@ public class AutomobileTableOperation extends BDConnection {
     private PreparedStatement pst;
     private final int DEFAULT_PROPRIO = 1;
     
-    public AutomobileTableOperation(boolean isTest) throws SQLException {
+    public AutomobileTableOperation(boolean isTest) throws SQLException, ClassNotFoundException {
         super(isTest);
     }
     
@@ -43,5 +44,19 @@ public class AutomobileTableOperation extends BDConnection {
         
         pst.executeUpdate();
         System.out.println("insertion effectuée avec succes");
+    }
+    
+    public ResultSet selection (String matricule) throws SQLException{
+        // sekection de la ligne de al table Amande dont le matricule correspond à celui entré
+        String requete = "SELECT * FROM "+table+" WHERE matricule = \""+matricule+"\"";
+        
+         //definition de de la requete préparée grace au connecteur de la classe mère
+        this.prepareStatement(requete);
+        
+        // recupération du résultat de la requete
+        ResultSet result = pst.executeQuery();
+        
+        
+        return result;
     }
 }
