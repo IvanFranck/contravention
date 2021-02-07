@@ -18,8 +18,9 @@ import javafx.stage.Stage;
 import SysCentral.AmandeTableOperations;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
-import java.sql.RowId;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 
@@ -30,6 +31,8 @@ import javafx.scene.control.PasswordField;
 public class Automobiliste extends Application {
     
     private AmandeTableOperations amandeTable;
+    private AutomobileTableOperation automobile;
+    private PersonneTableOperation personne;
     private final boolean isTest = true;
     
     @Override
@@ -62,28 +65,57 @@ public class Automobiliste extends Application {
         
         Button logInBtn = new Button ("Log in");
         grid.add(logInBtn, 3, 4, 1, 1);
-        
+        logInBtn.setDefaultButton(true);
         
         fen.show();
         
         logInBtn.setOnAction((ActionEvent even) -> {
             
+            String matricule = matriculeInput.getText();
+            String pass = mdp.getText();
+            int codePers = 0;
             try {
-                String matricule = matriculeInput.getText();
+                automobile = new AutomobileTableOperation(isTest);
+                ResultSet resultSet = automobile.selection(matricule);
+                if(resultSet.next()){
+                    codePers = resultSet.getInt(2);
+                    System.out.println("code pers : "+codePers);
+                }
+                
+            } catch (ClassNotFoundException | SQLException e) {
+                System.out.println(e);
+            }
+            
+            try {
+                
+                personne = new PersonneTableOperation(isTest);
+                ResultSet resultPersonne = personne.selectionPass(codePers);
+                
+                if (resultPersonne.next()) {
+                    System.out.println("mot de passe : "+resultPersonne.getString(2));
+                }
+            } catch (ClassNotFoundException | SQLException e) {
+                System.out.println(e);
+            }
+            
+            
+            try {
                 amandeTable = new AmandeTableOperations(isTest);
                 
-                String codeAmande = "";
                 ResultSet result = amandeTable.selection(matricule);
 //                result.first();
                 while(result.next()){
+                    
 //                    RowId id = result.getRowId("matricule");
 //                    System.out.println("row id : "+id);
-                    String test = result.getString("matricule");
+                    String test = result.getString(2);
                     System.out.println("test : "+ test);
                 }
                 System.out.println("résultat : "+result.toString());;
             } catch (SQLException ex) {
                 System.out.println("impossible de d'effetuer la recherche + "+ ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Automobiliste.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         });

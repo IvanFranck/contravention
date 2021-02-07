@@ -30,7 +30,12 @@ public class BDConnection {
      *          default value is true
      * @throws SQLException
      */
-    public BDConnection(boolean isTest) throws SQLException{
+    public BDConnection(boolean isTest) throws SQLException, ClassNotFoundException{
+        
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        System.out.println("driver chargé avec succes :) ");
+            
+        
         this.isTest = isTest;
         if (this.isTest){
             
