@@ -36,18 +36,19 @@ import javafx.scene.control.TextField;
  * @author nzima-ivan
  */
 public class SysCentral extends Application implements Runnable {
-    
+
     private SCServer serv;
     private JSONObject jsonMsg;
     private JSONParser parser;
     private final int PORTE = 3000;
-
+    
     // BD operation
-    private AmandeTableOperations tableAmande;    
+    private AmandeTableOperations tableAmande ; 
     private AutomobileTableOperation tableAuto;
     private PosteControleTableOperation tablePoste;
     private SystemeFlashTableOperation tableSystemeFlash;
     private boolean isTest = true;
+    
     
     @Override
     public void start(Stage fen) throws SQLException {
@@ -59,7 +60,8 @@ public class SysCentral extends Application implements Runnable {
         fen.setScene(sc);
         fen.setTitle("sys central");
         Text title = new Text("Syteme central");
-
+        
+        
         // style
         title.setFont(Font.font("Tahoma", FontWeight.BOLD, FontPosture.REGULAR, 15));
         
@@ -67,8 +69,10 @@ public class SysCentral extends Application implements Runnable {
         grid.setPadding(new Insets(10));
         grid.setHgap(10);
         grid.setVgap(10);
-
+        
+        
         /// Creation de sys de postes de controle
+
 //        TextField nomChefPoste = new TextField();
 //        nomChefPoste.setPromptText("Nom du Chef de poste");
 //        
@@ -97,39 +101,47 @@ public class SysCentral extends Application implements Runnable {
 //            }
 //            
 //        });
+
+
+
+
         /// Creation de sys de flash
         ResultSet allPosteControl = null;
         
         try {
-            
+
             tablePoste = new PosteControleTableOperation(isTest);
-            allPosteControl = tablePoste.selectionAll();
+            allPosteControl =  tablePoste.selectionAll();
+            
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SysCentral.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+         
+         
         ComboBox posteControlBox = new ComboBox();
         Button btn = new Button("OK");
         
-        while (allPosteControl.next()) {
+        while(allPosteControl.next()){
             
-            posteControlBox.getItems().add("Poste du chef :" + allPosteControl.getString(3));
+            posteControlBox.getItems().add("Poste du chef :"+allPosteControl.getString(3));
         }
         
         grid.add(posteControlBox, 0, 1);
         grid.add(btn, 0, 2);        
+
         
         btn.setOnAction((event) -> {
             try {
                 tableSystemeFlash = new SystemeFlashTableOperation(isTest);
-                String posteControlBoxTable = (String) posteControlBox.getValue();
-                String poste = posteControlBoxTable.split(":")[1].trim();
+                String posteControlBoxTable = (String)posteControlBox.getValue();
+                String poste =  posteControlBoxTable.split(":")[1].trim();
                 ResultSet result = tablePoste.findPoste(poste);
-                if (result.next()) {
-                    tableSystemeFlash.insertion(result.getInt(1));
+                if(result.next()){
+                    System.out.println(result.getInt(1));
                 }
-
+                
+                
 //                tableSystemeFlash.insertion(codePoste);
             } catch (SQLException ex) {
                 Logger.getLogger(SysCentral.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,6 +150,7 @@ public class SysCentral extends Application implements Runnable {
             }
             
         });
+        
         
         fen.show();
     }
@@ -150,7 +163,7 @@ public class SysCentral extends Application implements Runnable {
         th.start();
         launch(args);
     }
-    
+
     @Override
     public void run() {
         // Serveur socket relié aux clients flash
@@ -163,27 +176,30 @@ public class SysCentral extends Application implements Runnable {
         }
         try {
             
-            while (true) {
+            while(true){
                 // confirmation de toutes les connexions entrantes
                 serv.acceptConnection();
-
+                
                 // ouverture du flux de données et recuprétions des messages entrants
                 String msg = serv.receiveMsg();
-
+                
                 // convertion des messages recus en JSON
                 parser = new JSONParser();
                 jsonMsg = (JSONObject) parser.parse(msg);
-                System.out.println("vitesse : " + jsonMsg.get("vitesse"));
-
+                System.out.println("vitesse : "+jsonMsg.get("vitesse"));
+                
+                
                 // enregistrement des amandes et des auto ayant les matricules recupérés en BD
+                
                 // connexion à la BD
                 tableAuto = new AutomobileTableOperation(isTest);
                 tableAmande = new AmandeTableOperations(isTest);
-
+                
+                
                 // insertion des données recus dans la table Amande
                 String matricule = (String) jsonMsg.get("matricule");
                 JSONObject list = (JSONObject) jsonMsg.get("infractions");
-                String infractions = list.toString();
+                String infractions = list.toString() ;
                 
                 tableAuto.insertion(matricule);
                 
@@ -193,10 +209,11 @@ public class SysCentral extends Application implements Runnable {
         } catch (IOException ex) {
             System.out.println("echec connexion serveur");
         } catch (SQLException ex) {
-            System.out.println("impossible de se connecter à la BD : " + ex);
+            System.out.println("impossible de se connecter à la BD : "+ex);
         } catch (ParseException | ClassNotFoundException ex) {
             Logger.getLogger(SysCentral.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+       
+
 }
