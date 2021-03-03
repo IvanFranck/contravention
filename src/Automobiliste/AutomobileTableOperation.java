@@ -46,6 +46,22 @@ public class AutomobileTableOperation extends BDConnection {
         System.out.println("insertion effectuée avec succes");
     }
     
+    public void insertion (String matricule, int codeProprio) throws SQLException{
+        String requete = "INSERT INTO "+table+ " (matricule, code_personne) VALUES (?,?)";
+        
+        //definition de de la requete préparée grace au connecteur de la classe mère
+        this.prepareStatement(requete);
+       
+        // insertion du matricule dans la table
+        pst.setString(1, (String)matricule);
+      
+        // insertion du code du proprio de l'auto
+        pst.setInt(2, (int)codeProprio);
+        
+        pst.executeUpdate();
+        System.out.println("insertion effectuée avec succes");
+    }
+    
     public ResultSet selection (String matricule) throws SQLException{
         // sekection de la ligne de al table Amande dont le matricule correspond à celui entré
         String requete = "SELECT * FROM "+table+" WHERE matricule = \""+matricule+"\"";

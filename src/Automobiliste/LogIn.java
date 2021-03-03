@@ -44,7 +44,7 @@ public class LogIn extends BorderPane {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.BASELINE_LEFT);
         grid.setPadding(new Insets(15, 100, 0, 0));
-        grid.setId("grid");
+        grid.setId("grid-login");
         
         VBox greatingBox = new VBox();
         
@@ -78,7 +78,7 @@ public class LogIn extends BorderPane {
         Text heyText = new Text("Hey !");
         heyText.setFont(Font.font("Roboto", FontWeight.MEDIUM, 32));
         
-        Text welcomeText = new Text("Bienvennu");
+        Text welcomeText = new Text("C'est un plaisir \n de vous revoir");
         welcomeText.setFont(Font.font("Roboto", FontWeight.MEDIUM, 32));
         
         Label matricule = new Label("Matricule"); 
@@ -128,19 +128,14 @@ public class LogIn extends BorderPane {
         
         
         
-        createAccount.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent arg0) {
-                // TODO Auto-generated method stub
-                
-                
-                Stage nouveauStage;
-                nouveauStage = (Stage) ((Node) arg0.getSource()).getScene().getWindow();
-                
-                Scene scene = new Scene(new SignUp(),800, 800);
-                nouveauStage.setScene(scene);
-            }
+        createAccount.setOnAction((ActionEvent arg0) -> {
+            // TODO Auto-generated method stub
+            
+            
+            Stage nouveauStage;
+            nouveauStage = (Stage) ((Node) arg0.getSource()).getScene().getWindow();
+            Scene scene1 = new Scene(new SignUp(),800, 800);
+            nouveauStage.setScene(scene1);
         });
         
     }

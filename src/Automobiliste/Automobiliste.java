@@ -30,6 +30,7 @@ import org.json.simple.parser.ParseException;
 import SysCentral.AmandeTableOperations;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 /**
  *
  * @author nzima-ivan
@@ -42,14 +43,15 @@ public class Automobiliste extends Application {
     private final InputStream arrowBackOutline = Automobiliste.class.getResourceAsStream("/Icons/arrow-back-outline.png");
 
     private final BorderPane PanelAnnuaire = new BorderPane();
-    private final BorderPane panelLogin = new LogIn();
+    private final BorderPane panelSignup = new SignUp();
 
     @Override
     public void start(Stage stage) {
 
-        PanelAnnuaire.setCenter(panelLogin);
+        PanelAnnuaire.setCenter(panelSignup);
         Scene scene = new Scene(PanelAnnuaire, 800, 800);
-        scene.getStylesheets().addAll(this.getClass().getResource("login.css").toExternalForm());
+        scene.getStylesheets().addAll(this.getClass().getResource("logIn.css").toExternalForm());
+        scene.getStylesheets().addAll(this.getClass().getResource("signUp.css").toExternalForm());
         stage.setTitle("test");
         stage.setScene(scene);
         stage.show();
