@@ -74,6 +74,20 @@ public class AmandeTableOperations extends BDConnection {
         return result;
     }
     
+     public ResultSet getInfractions (String matricule) throws SQLException{
+        // sekection de la liste d'infractions table Amande dont le matricule correspond à celui entré
+        String requete = "SELECT liste_infraction FROM "+table+" WHERE matricule = \"matricule\"";
+        
+         //definition de de la requete préparée grace au connecteur de la classe mère
+        this.prepareStatement(requete);
+        
+        // recupération du résultat de la requete
+        ResultSet result = pst.executeQuery();
+        
+        
+        return result;
+    }
+    
     
     public void setDatePaimentAmande(Date dateFin ,String matricule ) throws SQLException {
         

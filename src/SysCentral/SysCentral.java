@@ -31,7 +31,7 @@ import java.util.logging.Logger;
  */
 public class SysCentral extends Application implements Runnable {
 
-    private SCServer serv;
+    private Server serv;
     private JSONObject jsonMsg;
     private JSONParser parser;
     private final int PORTE = 3000;
@@ -79,7 +79,7 @@ public class SysCentral extends Application implements Runnable {
     @Override
     public void run() {
 
-        serv = new SCServer();
+        serv = new Server();
         try {
             // demarrage du server de socket (écoute sur le port 3000)
             serv.start(PORTE);

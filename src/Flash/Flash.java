@@ -81,14 +81,18 @@ public class Flash extends Application implements Runnable{
         envoyerBtn.setOnAction((ActionEvent even) -> {
             
             try {
-                FlashClient sockCl = new FlashClient();
-                sockCl.connect(3000);
+//                FlashClient sockCl = new FlashClient();
+                FlashClient sockCl2 = new FlashClient();
+                
+//                sockCl.connect(3000);
+                sockCl2.connect(4000);
                 
                 System.out.println("message à envoyer : " + String.join("", jsonMsg.toString(),"\n"));
                 String matricule = (String) jsonMsg.get("matricule");
                 float vitesse = (float) jsonMsg.get("vitesse");
                 
-                sockCl.sendMessage(jsonMsg.toString()+"\n");
+//                sockCl.sendMessage(jsonMsg.toString()+"\n");
+                sockCl2.sendMessage(jsonMsg.toJSONString()+"\n");
                 
 //                sockCl.sendMessage(jsonMsg);
             } catch (IOException ex) {
