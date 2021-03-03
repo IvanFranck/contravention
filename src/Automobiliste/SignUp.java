@@ -8,6 +8,7 @@ package Automobiliste;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -301,19 +302,17 @@ public class SignUp extends BorderPane {
                 }
                 
                 // convert date picker value to sql date
-                if (dateNaissance.getValue() == null){
-                    String dateString = dateNaissance.getEditor().getText();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
-
-                    Date dateNai = dateFormat.parse(dateString);
-
-                    java.sql.Date sDateNai = convertUtilToSql(dateNai);
-                }
                 
-//                personneTable.insertion(nomField.getText(), prenomField.getText(), numCNIField.getText(), sDateNai, professionField.getText(),
-//                        Integer.parseInt(telField.getText().trim()), mailField.getText(), adresseField.getText(), hashPass.toString());
+                String dateString = dateNaissance.getEditor().getText();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+
+                Date dateNai = dateFormat.parse(dateString);
+
+                java.sql.Date sDateNai = convertUtilToSql(dateNai);
                 
-                // enregistrement de l'automobile
+                
+                personneTable.insertion(nomField.getText(), prenomField.getText(), numCNIField.getText(), sDateNai, professionField.getText(),
+                        Integer.parseInt(telField.getText().trim()), mailField.getText(), adresseField.getText(), hashPass.toString());
                 
                 
 
@@ -328,6 +327,16 @@ public class SignUp extends BorderPane {
                 }else{
                     newMatricule  = matriculeField.getText().toUpperCase();
                 }
+                
+                
+                // enregistrement de l'automobile
+                ResultSet getCodeResult = personneTable.getCode(nomField.getText());
+                int code = 1;
+                if(getCodeResult.next()){
+                    code = getCodeResult.getInt("code_personne");
+                }
+                automobileTable.insertion(newMatricule, code);
+                
                 
 
             } catch (SQLException | ClassNotFoundException | NoSuchAlgorithmException ex) {
