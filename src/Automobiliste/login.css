@@ -1,0 +1,54 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 18 févr. 2021, 11:05:08
+    Author     : nzima-ivan
+*/
+
+#grid{
+    -fx-background-image: url("illustration.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 400 280;
+    -fx-background-position: 310 120;
+}
+#main{
+    -fx-background-color: #D6F5F0;
+}
+#header{
+    background-color: #D6F5F0;
+}
+#cliked{
+    -fx-text-fill: #010404;
+    -fx-underline: true;
+}
+.hyperlink{
+    -fx-text-fill: #1D7C73;
+    -fx-text-alignment: center;
+    -fx-font: "Roboto";
+    -fx-border-color: transparent;
+
+}
+.hyperlink:hover{
+    -fx-text-fill: #010404;
+    -fx-underline:false;
+    
+}
+.hyperlink:visited{
+    -fx-text-fill: #840C01;
+}
+.text-field{
+    -fx-background-color: #D6F5F0;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+    -fx-border-color: #8E99A4;
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+.label{
+    -fx-text-fill: #8E99A4;
+}

@@ -37,7 +37,7 @@ import javafx.scene.control.TextField;
  */
 public class SysCentral extends Application implements Runnable {
 
-    private SCServer serv;
+    private Server serv;
     private JSONObject jsonMsg;
     private JSONParser parser;
     private final int PORTE = 3000;
@@ -166,8 +166,13 @@ public class SysCentral extends Application implements Runnable {
 
     @Override
     public void run() {
+
         // Serveur socket relié aux clients flash
-        serv = new SCServer();
+        serv = new Server();
+
+
+        serv = new Server();
+
         try {
             // demarrage du server de socket (écoute sur le port 3000)
             serv.start(PORTE);

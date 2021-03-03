@@ -5,212 +5,187 @@
  */
 package Automobiliste;
 
-
+import java.io.InputStream;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
+import static javafx.application.Application.launch;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
-import SysCentral.AmandeTableOperations;
-import java.security.NoSuchAlgorithmException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.geometry.Insets;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import SysCentral.AmandeTableOperations;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 /**
  *
  * @author nzima-ivan
  */
 public class Automobiliste extends Application {
-    
-    private GridPane gridLogin;
-    private GridPane gridSignIn;
-    private Scene sc;
-    
-    private AmandeTableOperations amandeTable;
-    private AutomobileTableOperation automobile;
-    private PersonneTableOperation personne;
+
     private final boolean isTest = true;
-    
+    private final String matricule = "CE 787 DR";
+    private AmandeTableOperations amandeTable;
+    private final InputStream arrowBackOutline = Automobiliste.class.getResourceAsStream("/Icons/arrow-back-outline.png");
+
+    private final BorderPane PanelAnnuaire = new BorderPane();
+    private final BorderPane panelLogin = new LogIn();
+
     @Override
-    public void start(Stage fen) throws NoSuchAlgorithmException {
-        
-        
-        gridSignIn = new GridPane();
-        sc = new Scene(gridSignIn, 700, 700);
+    public void start(Stage stage) {
 
-        gridSignIn.setAlignment(Pos.CENTER);
-        gridSignIn.setPadding(new Insets(10));
-        gridSignIn.setHgap(10);
-        gridSignIn.setVgap(10);
-        
-        
-        Text titleSignIn = new Text("S'incrire");
-        gridSignIn.add(titleSignIn, 0, 0);
-        
-        Label nomText = new Label("nom");
-        TextField nomField = new TextField();
-        gridSignIn.add(nomText, 0, 1);
-        gridSignIn.add(nomField, 0, 2);
-        
-        Label prenomText = new Label("prenom");
-        TextField prenomField = new TextField();
-        gridSignIn.add(prenomText, 1, 1);
-        gridSignIn.add(prenomField, 1, 2);
-        
-        Label numCNIText = new Label("numéro CNI");
-        TextField numCNIField = new TextField();
-        gridSignIn.add(numCNIText, 0, 3);
-        gridSignIn.add(numCNIField, 0, 4);
-        
-        
-        Text passText = new Text("mot de passe");
-        PasswordField passwordField = new PasswordField();
-        gridSignIn.add(passText, 0, 5);
-        gridSignIn.add(passwordField, 0, 6);
-        
-        
-        Text naissanceText = new Text("date de naissance");
-        DatePicker naissanceDatePicker = new DatePicker();
-        gridSignIn.add(naissanceText, 0, 7);
-        gridSignIn.add(naissanceDatePicker, 0, 8);
-        
-        
-        Text professionText = new Text("profession");
-        ComboBox professionBox = new ComboBox();
-        professionBox.getItems().addAll(
-                "Etudiant",
-                "Ingéninieur",
-                "enseignant",
-                "Menuisier",
-                "chauffeur taxi",
-                "Commercant"
-        );
-        gridSignIn.add(professionText, 0, 9);
-        gridSignIn.add(professionBox, 0, 10);
-        
-        Text telText = new Text("contact");
-        TextField textField = new TextField();
-        gridSignIn.add(telText, 0, 11);
-        gridSignIn.add(textField, 0, 12);
-        
-        
-        
-        Text mailText = new Text("adresse mail");
-        TextField mailField = new TextField();
-        gridSignIn.add(mailText, 0, 13);
-        gridSignIn.add(mailField, 0, 14);
-        
-        
-        Text adresseText = new Text("adresse");
-        TextField adressField = new TextField();
-        gridSignIn.add(adresseText, 0, 15);
-        gridSignIn.add(adressField, 0, 16);
-        
-        Button logIn , signIn;
-        logIn = new Button("Log in");
-        signIn = new Button("Sign in");
-        gridSignIn.add(logIn, 0, 17);
-        gridSignIn.add(signIn, 1, 17);
+        PanelAnnuaire.setCenter(panelLogin);
+        Scene scene = new Scene(PanelAnnuaire, 800, 800);
+        scene.getStylesheets().addAll(this.getClass().getResource("login.css").toExternalForm());
+        stage.setTitle("test");
+        stage.setScene(scene);
+        stage.show();
 
-        logIn.setOnAction((ActionEvent even)->{
-            sc = new Scene(gridLogin, 700, 700);
-        });
-        
-        
-      
-        gridLogin = new GridPane();
-        gridLogin.setAlignment(Pos.CENTER);
-        gridLogin.setVgap(20);
-        gridLogin.setHgap(20);
-        
-        fen.setScene(sc);
-        
-        
-        Text title = new Text("Paiment");
-        fen.setTitle("interface paiement");
-        
-        gridLogin.add(title, 0,0, 6,1);
-        
-        Label matriculeLabel = new Label("matricule");
-        Label mdpLabel = new Label("mot de passe");
-        
-        TextField matriculeInput = new TextField();
-        gridLogin.add(matriculeInput, 1, 1, 5, 1);
-        gridLogin.add(matriculeLabel, 0, 1);
-        
-        PasswordField mdp = new PasswordField();
-        gridLogin.add(mdp,1 ,2, 5,1 );
-        gridLogin.add(mdpLabel, 0, 2);
-        
-        Button logInBtn = new Button ("Log in");
-        gridLogin.add(logInBtn, 3, 4, 1, 1);
-        logInBtn.setDefaultButton(true);
-        
-        fen.show();
-        
-        logInBtn.setOnAction((ActionEvent even) -> {
-            
-            String matricule = matriculeInput.getText();
-            String pass = mdp.getText();
-            int codePers = 0;
-            try {
-                automobile = new AutomobileTableOperation(isTest);
-                ResultSet resultSet = automobile.selection(matricule);
-                if(resultSet.next()){
-                    codePers = resultSet.getInt(2);
-                    System.out.println("code pers : "+codePers);
-                }
-                
-            } catch (ClassNotFoundException | SQLException e) {
-                System.out.println(e);
-            }
-            
-            try {
-                
-                personne = new PersonneTableOperation(isTest);
-                ResultSet resultPersonne = personne.selectionPass(codePers);
-                
-                if (resultPersonne.next()) {
-                    System.out.println("mot de passe : "+resultPersonne.getString(2));
-                }
-            } catch (ClassNotFoundException | SQLException e) {
-                System.out.println(e);
-            }
-            
-            
-            try {
-                amandeTable = new AmandeTableOperations(isTest);
-                
-                ResultSet result = amandeTable.selection(matricule);
-//                result.first();
-                while(result.next()){
-                    
-//                    RowId id = result.getRowId("matricule");
-//                    System.out.println("row id : "+id);
-                    String test = result.getString(2);
-                    System.out.println("test : "+ test);
-                }
-                System.out.println("résultat : "+result.toString());;
-            } catch (SQLException ex) {
-                System.out.println("impossible de d'effetuer la recherche + "+ ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Automobiliste.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        });
+//        try {
+//            BorderPane borderPane = new BorderPane();
+//            
+//            Scene scene = new Scene(borderPane, 300, 640, Color.rgb(214, 245, 240));
+//            
+//            scene.getStylesheets().add(Automobiliste.class.getResource("style.css").toExternalForm());
+//            
+//            
+//            stage.setScene(scene);
+//            VBox vBox;
+//            vBox = addheader();
+//            borderPane.setCenter(vBox);
+//            
+//            getAmande();
+//            
+//            stage.show();
+//        } catch (SQLException ex) {
+//            System.out.println("erreur SQL: "+ex);
+//        } catch (ParseException ex) {
+//            Logger.getLogger(Automobiliste.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+    }
+
+//    
+//    public void addText(Text text, int columnIndex, int rowIndex){
+//        
+//        grid.add(text, columnIndex, rowIndex);
+//    }
+    public VBox addheader() {
+
+        VBox vBox = new VBox();
+        vBox.setPadding(new Insets(35, 0, 0, 45));
+
+        GridPane grid = new GridPane();
+        grid.setVgap(10);
+
+        Text title = new Text("Contravention");
+        title.setFont(Font.font("Roboto", FontWeight.NORMAL, 14));
+        title.setFill(Color.rgb(19, 93, 77));
+        grid.add(title, 0, 0);
+
+        HBox hbBox = new HBox();
+        hbBox.setSpacing(4);
+        hbBox.setAlignment(Pos.BASELINE_LEFT);
+        Text prize = new Text("75,000");
+        prize.setFont(Font.font("Roboto", FontWeight.NORMAL, 20));
+        prize.setFill(Color.rgb(19, 93, 77));
+
+        Text monnaie = new Text("FCFA");
+        monnaie.setFont(Font.font("Roboto", FontWeight.NORMAL, 10));
+        monnaie.setFill(Color.rgb(19, 93, 77));
+
+        hbBox.getChildren().addAll(prize, monnaie);
+
+        grid.add(hbBox, 0, 1);
+
+        Text dateDelais = new Text("A payer avant le 23/03/2021");
+        dateDelais.setFont(Font.font("Roboto", FontWeight.LIGHT, 9));
+        dateDelais.setFill(Color.rgb(29, 124, 115));
+
+        grid.add(dateDelais, 0, 2);
+
+        Text detailsCompte = new Text("Détails compte");
+        detailsCompte.setFont(Font.font("Roboto", FontWeight.LIGHT, 9));
+        detailsCompte.setFill(Color.rgb(142, 153, 164));
+
+        grid.add(detailsCompte, 0, 3);
+
+        HBox btn;
+        btn = buyBtn();
+
+        vBox.getChildren().addAll(grid, btn);
+
+        return vBox;
+
+    }
+
+    private BorderPane addBody() {
+
+        BorderPane body = new BorderPane();
+
+        GridPane grid = new GridPane();
+        grid.setVgap(15);
+
+        body.setCenter(grid);
+
+        return body;
+
+    }
+
+    public HBox buyBtn() {
+
+        HBox btn = new HBox();
+
+        InputStream in = Automobiliste.class.getResourceAsStream("/Icons/bouton-payer.png");
+        Hyperlink link;
+        link = addHyperlinkIcon(in);
+
+        btn.getChildren().add(link);
+
+        return btn;
+    }
+
+    public Hyperlink addHyperlinkIcon(InputStream inputStream) {
+        // creation dun hyperlien
+        Hyperlink hyperlink = new Hyperlink();
+
+        //creatiion d'un graphic
+        ImageView view = new ImageView();
+        Image image = new Image(inputStream);
+        view.setImage(image);
+        view.setFitHeight(30);
+        view.setFitWidth(225);
+
+        //setting the graphic to the hyperlink
+        hyperlink.setGraphic(view);
+
+        return hyperlink;
+    }
+
+    private void getAmande() throws SQLException, ParseException, ClassNotFoundException {
+
+        amandeTable = new AmandeTableOperations(isTest);
+
+        ResultSet result = amandeTable.getInfractions(matricule);
+        if (result.next()) {
+            String listeInfractions = result.getString("liste_infraction");
+            JSONParser parser = new JSONParser();
+            JSONObject infractionJson = (JSONObject) parser.parse(listeInfractions);
+            System.out.println(infractionJson);
+        }
+
     }
 
     /**
@@ -219,5 +194,5 @@ public class Automobiliste extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
