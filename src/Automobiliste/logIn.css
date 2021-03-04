@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : nzima-ivan
 */
 
-#grid{
+#grid-login{
     -fx-background-image: url("illustration.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: 400 280;
@@ -37,7 +37,12 @@ and open the template in the editor.
     
 }
 .hyperlink:visited{
-    -fx-text-fill: #840C01;
+    -fx-text-fill: #010404;
+    -fx-underline: false;
+}
+
+.hyperlink:disabled{
+    -fx-underline: false;
 }
 .text-field{
     -fx-background-color: #D6F5F0;
