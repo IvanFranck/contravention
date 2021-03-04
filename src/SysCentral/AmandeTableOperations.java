@@ -76,7 +76,7 @@ public class AmandeTableOperations extends BDConnection {
     
     public ResultSet selection (String matricule) throws SQLException{
         // selection de la ligne de la table Amande dont le matricule correspond à celui entré
-        String requete = "SELECT * FROM "+table+" WHERE matricule="+matricule;
+        String requete = "SELECT * FROM "+table+" WHERE matricule= \""+matricule+"\"";
         
          //definition de de la requete préparée grace au connecteur de la classe mère
         this.prepareStatement(requete);
@@ -84,7 +84,7 @@ public class AmandeTableOperations extends BDConnection {
         // recupération du résultat de la requete
         ResultSet result = pst.executeQuery();
         
-        
+        System.out.println("selection de l'amande réussi");
         return result;
     }
     
