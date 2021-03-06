@@ -81,7 +81,7 @@ public class LogIn extends BorderPane {
         Text welcomeText = new Text("C'est un plaisir \n de vous revoir");
         welcomeText.setFont(Font.font("Roboto", FontWeight.MEDIUM, 32));
         
-        Label matricule = new Label("Matricule"); 
+        Label matricule = new Label("Numero plaque immatriculation"); 
         matricule.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));
         InputStream inProfil = Automobiliste.class.getResourceAsStream("Profile.png");
         Image img = new Image(inProfil);

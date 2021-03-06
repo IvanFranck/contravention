@@ -139,7 +139,7 @@ public class SignUp extends BorderPane {
         Text welcomeText = new Text("Veillez renseigner toutes les informations\nci-dessous pour créer un compte");
         welcomeText.setFont(Font.font("Roboto", FontWeight.THIN, 12));
         
-        Label matricule = new Label("Matricule"); 
+        Label matricule = new Label("Numero plaque immatriculation"); 
         matricule.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));
 //        InputStream inProfil = Automobiliste.class.getResourceAsStream("Profile.png");
 //        Image img = new Image(inProfil);
