@@ -7,10 +7,17 @@ package Automobiliste;
 
 import SysCentral.AmandeTableOperations;
 import contravention.ContraventionTableOperation;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -84,8 +91,7 @@ public class Contravention extends BorderPane{
         GridPane infractionGrid = new GridPane();
         infractionGrid.setPadding(new Insets(60, 0, 20, 45));
         
-        this.setTop(header);
-        this.setCenter(infractionGrid);
+        
         
         GridPane grid = new GridPane();
         grid.setVgap(10);
@@ -160,6 +166,38 @@ public class Contravention extends BorderPane{
                 infractionGrid.add(infractionBox, 0, i);
             }
         }
+        
+        
+            GridPane bottomGridPane = new GridPane();
+        
+            //Creating a hyper link
+          Hyperlink link = new Hyperlink();
+          //Creating a graphic
+          ImageView view = new ImageView();
+          InputStream input = LogIn.class.getResourceAsStream("bouton-payer.png");
+          Image image = new Image(input);
+          view.setImage(image);
+          view.setFitHeight(40);
+          view.setFitWidth(220);
+          //Setting the graphic to the hyperlink
+          link.setGraphic(view);
+          bottomGridPane.add(link, 0, 0);
+        
+          GridPane.setMargin(link, new Insets(0, 0, 60, 45));
+          
+          link.setOnAction((event) -> {
+            try {
+                amandeTable.buy(matricule);
+                BorderPane parent = (BorderPane) this.getParent();
+                parent.setCenter(new NoContravention(userName));
+            } catch (SQLException ex) {
+                Logger.getLogger(Contravention.class.getName()).log(Level.SEVERE, null, ex);
+            }
+          });
+          
+        this.setBottom(bottomGridPane);
+        this.setTop(header);
+        this.setCenter(infractionGrid);
     }
 
 

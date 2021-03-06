@@ -16,6 +16,9 @@ import SysCentral.AmandeTableOperations;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.geometry.Pos;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.layout.HBox;
 import org.json.simple.parser.ParseException;
 
 /**
@@ -31,26 +34,52 @@ public class Automobiliste extends Application {
 
     private final BorderPane PanelAnnuaire = new BorderPane();
     private final BorderPane panelSignup = new SignUp();
+    private final BorderPane panelLogIn = new LogIn();
     private Contravention panelContravention;
 
 
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws ClassNotFoundException, SQLException, ParseException {
         
-        try {
-            panelContravention = new Contravention("John", matricule);
-            PanelAnnuaire.setCenter(panelContravention);
-            Scene scene = new Scene(PanelAnnuaire, 600, 800);
-            scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
-            stage.setTitle("test");
-            stage.setScene(scene);
-            stage.show();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(Automobiliste.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(Automobiliste.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        PanelAnnuaire.setCenter(new Contravention("john", "AD 661 XE"));
+        PanelAnnuaire.setId("main");
+        Scene scene = new Scene(PanelAnnuaire, 800, 800);
+        scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        
+        HBox header = new HBox();
+        header.setId("header");
+        header.setSpacing(12);
+        header.setAlignment(Pos.TOP_RIGHT);
+        
+        PanelAnnuaire.setTop(header);
+        
+        stage.setTitle("COntravention");
+
+        
+        Hyperlink signInText = new Hyperlink("Se connecter");
+        signInText.setId("cliked");
+        
+
+        Hyperlink signUpText = new Hyperlink("Créer un compte");
+
+        header.getChildren().addAll(signInText, signUpText);
+        
+        signInText.setOnAction((ActionEvent)->{
+            
+            PanelAnnuaire.setCenter(panelLogIn);
+            
+        });
+        
+        signUpText.setOnAction((ActionEvent)->{
+            
+            PanelAnnuaire.setCenter(panelSignup);
+            
+        });
+        
+        
+        stage.setScene(scene);
+        stage.show();
 
     }
 

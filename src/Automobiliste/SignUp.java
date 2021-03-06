@@ -337,9 +337,9 @@ public class SignUp extends BorderPane {
                 java.sql.Date sDateNai = convertUtilToSql(dateNai);
                 
                 
-//                personneTable.insertion(nomField.getText(), prenomField.getText(), numCNIField.getText(), sDateNai, professionField.getText(),
-//                        Integer.parseInt(telField.getText().trim()), mailField.getText(), adresseField.getText(), hashPass.toString());
-//                
+                personneTable.insertion(nomField.getText(), prenomField.getText(), numCNIField.getText(), sDateNai, professionField.getText(),
+                        Integer.parseInt(telField.getText().trim()), mailField.getText(), adresseField.getText(), hashPass.toString());
+                
                 
 
                 // formatage du matricule
@@ -379,6 +379,7 @@ public class SignUp extends BorderPane {
             Stage nouveauStage;
             nouveauStage = (Stage) ((Node) arg0.getSource()).getScene().getWindow();
             Scene scene2 = new Scene(new LogIn(),800, 800);
+            scene2.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
             nouveauStage.setScene(scene2);
         });
     }

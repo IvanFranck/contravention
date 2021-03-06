@@ -106,7 +106,7 @@ public class AmandeTableOperations extends BDConnection {
     
      public ResultSet getInfractions (String matricule) throws SQLException{
         // sekection de la liste d'infractions table Amande dont le matricule correspond à celui entré
-        String requete = "SELECT liste_infraction FROM "+table+" WHERE matricule = \"matricule\"";
+        String requete = "SELECT liste_infraction FROM "+table+" WHERE matricule = \""+matricule+"\"";
         
          //definition de de la requete préparée grace au connecteur de la classe mère
         this.prepareStatement(requete);
@@ -129,4 +129,13 @@ public class AmandeTableOperations extends BDConnection {
         
     }
     
+    public void buy(String matricule) throws SQLException{
+        String requete = "UPDATE "+table+"  SET `statut` = '1' WHERE `amande`.`matricule` = \""+matricule+"\"";
+        
+         //definition de de la requete préparée grace au connecteur de la classe mère
+        this.prepareStatement(requete);
+        
+        pst.executeUpdate();
+        System.out.println("amande réglée");
+    }
 }
