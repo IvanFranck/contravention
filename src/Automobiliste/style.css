@@ -57,6 +57,7 @@ and open the template in the editor.
     -fx-text-fill: #8E99A4;
 }
 
+
 #grid-signup{
     -fx-background-image: url("driver-image.png");
     -fx-background-repeat: no-repeat;

@@ -40,9 +40,9 @@ public class Automobiliste extends Application {
 
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws ClassNotFoundException, SQLException, ParseException {
         
-        PanelAnnuaire.setCenter(panelLogIn);
+        PanelAnnuaire.setCenter(new Contravention("john", "AD 661 XE"));
         PanelAnnuaire.setId("main");
         Scene scene = new Scene(PanelAnnuaire, 800, 800);
         scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());

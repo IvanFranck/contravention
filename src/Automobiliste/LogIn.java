@@ -180,15 +180,13 @@ public class LogIn extends BorderPane {
 //                    scene2.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
 //                    nouveauStage.setScene(scene2);
                       BorderPane parent = (BorderPane) this.getParent();
-                      parent.setCenter(new Contravention(nom, mat));
+                      parent.setCenter(new NoContravention(nom));
                 }else{
                     //inserer une page d'erreur
                 }
             } catch (NoSuchAlgorithmException | SQLException ex) {
                 Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
                 Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
             }
             
