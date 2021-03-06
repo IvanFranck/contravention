@@ -4,7 +4,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : 18 févr. 2021, 11:05:08
+    Created on : 3 mars 2021, 02:42:24
     Author     : nzima-ivan
 */
 
@@ -18,7 +18,7 @@ and open the template in the editor.
     -fx-background-color: #D6F5F0;
 }
 #header{
-    background-color: #D6F5F0;
+    -fx-background-color: #D6F5F0;
 }
 #cliked{
     -fx-text-fill: #010404;
@@ -27,7 +27,6 @@ and open the template in the editor.
 .hyperlink{
     -fx-text-fill: #1D7C73;
     -fx-text-alignment: center;
-    -fx-font: "Roboto";
     -fx-border-color: transparent;
 
 }
@@ -56,4 +55,24 @@ and open the template in the editor.
 
 .label{
     -fx-text-fill: #8E99A4;
+}
+
+#grid-signup{
+    -fx-background-image: url("driver-image.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 350 280;
+    -fx-background-position: 20 220;
+}
+
+#btn{
+    -fx-background-color: linear-gradient(#2EC4B6 11.85%, #1A7068 104.8%);
+    -fx-background-radius: 15;
+    -fx-padding: 8;
+    -fx-text-fill: #F7FDFC;
+    -fx-font-size: 15px;
+}
+#precHyperlink:visited, #suivHyperlink:visited{
+    -fx-text-fill: #1D7C73;
+    -fx-text-alignment: center;
+    -fx-border-color: transparent;
 }

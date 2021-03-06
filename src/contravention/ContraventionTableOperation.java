@@ -9,7 +9,6 @@ import SysCentral.BDConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 /**
  *
@@ -41,7 +40,7 @@ public class ContraventionTableOperation extends BDConnection {
         // recupération du résultat de la requete
         ResultSet result = pst.executeQuery();
         
-        
+        System.out.println("selection réussie");
         return result;
     }
     
