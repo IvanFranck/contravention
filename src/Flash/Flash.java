@@ -22,7 +22,7 @@ import org.json.simple.JSONObject;
  *
  * @author nzima-ivan
  */
-public class Flash extends Application implements Runnable{
+public class Flash extends Application{
     
     private JSONObject jsonMsg;
     
@@ -85,7 +85,7 @@ public class Flash extends Application implements Runnable{
                 FlashClient sockCl2 = new FlashClient();
                 
 //                sockCl.connect(3000);
-                sockCl2.connect(4000);
+                sockCl2.connect(7000);
                 
                 System.out.println("message à envoyer : " + String.join("", jsonMsg.toString(),"\n"));
                 String matricule = (String) jsonMsg.get("matricule");
@@ -104,14 +104,11 @@ public class Flash extends Application implements Runnable{
         
     }
     
-    @Override
-    public void run (){
-       
-    }
+
     
     public static void main(String[] args) {
-        Thread th = new Thread (new Flash());
-        th.start();
+//        Thread th = new Thread (new Flash());
+//        th.start();
         launch(args);
     }
 }

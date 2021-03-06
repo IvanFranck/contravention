@@ -6,7 +6,6 @@
 package Automobiliste;
 
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
