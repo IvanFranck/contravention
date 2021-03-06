@@ -28,7 +28,7 @@ public class PersonneTableOperation extends BDConnection {
         pst = super.con.prepareStatement(requete);
     }
     
-    public ResultSet getPass(int code_personne) throws SQLException{
+    public ResultSet getPersonne(int code_personne) throws SQLException{
         String requete = "SELECT * FROM "+ table +" WHERE code_personne = \""+code_personne+"\"";
         prepareStatement(requete);
                 

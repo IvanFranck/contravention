@@ -6,6 +6,12 @@
 package Automobiliste;
 
 import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -27,6 +33,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -35,11 +42,12 @@ import javafx.stage.Stage;
 public class LogIn extends BorderPane {
     
     
+    private final boolean isTest = true;
+    private PersonneTableOperation tablePersonne;
+    private AutomobileTableOperation tableAuto;
+    
     public LogIn() {
-        HBox header = new HBox();
-        header.setId("header");
-        header.setSpacing(12);
-        header.setAlignment(Pos.TOP_RIGHT);
+        
         
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.BASELINE_LEFT);
@@ -64,15 +72,7 @@ public class LogIn extends BorderPane {
         
         this.setId("main");
         this.setCenter(grid);
-        this.setTop(header);
         
-        Hyperlink signInText = new Hyperlink("Se connecter");
-        signInText.setId("cliked");
-        
-
-        Hyperlink signUpText = new Hyperlink("Créer un compte");
-
-        header.getChildren().addAll(signInText, signUpText);
         
         
         Text heyText = new Text("Hey !");
@@ -116,27 +116,86 @@ public class LogIn extends BorderPane {
         
         greatingBox.getChildren().addAll(heyText, welcomeText);
         
-        Button btn = new Button("S'incrire");
         
-        Hyperlink createAccount = new Hyperlink("Vous n'avez pas de compte ?");
-        GridPane.setMargin(createAccount, new Insets(25, 100, 0, 250));
+        InputStream input = LogIn.class.getResourceAsStream("Arrow-Right-Circle.png");
+        Image imgarrow = new Image(input);
+        ImageView btnView = new ImageView(imgarrow);
+        btnView.setFitHeight(15);
+        btnView.setFitWidth(15);
+        Button connect = new Button("Se connecter", btnView);
+        connect.setId("btn");
+        connect.setAlignment(Pos.BASELINE_CENTER);
+        GridPane.setMargin(connect, new Insets(25, 100, 0, 250));
         
         grid.add(greatingBox, 0, 0);
         grid.add(matriculeGroupBox, 0, 1);
         grid.add(passGroupBox, 0, 2);
-        grid.add(createAccount, 0, 3);
+        grid.add(connect, 0, 3);
         
         
-        
-        createAccount.setOnAction((ActionEvent arg0) -> {
-            // TODO Auto-generated method stub
+        connect.setOnAction((ActionEvent arg0)-> {
+            MessageDigest md;
             
+            try {
+                
+                tableAuto = new AutomobileTableOperation(isTest);
+                tablePersonne = new PersonneTableOperation(isTest);
+            // hachage mot de passe
+                
+                md = MessageDigest.getInstance("MD5");
+                md.update(passwordField.getText().getBytes());
+                
+                byte byteData[] = md.digest();
+                
+                //convertir le tableau de bits en un format hex
+                StringBuilder hashPass = new StringBuilder();
+                for (int i = 0; i < byteData.length; i++){
+                    String hex = Integer.toHexString(0xff & byteData[i]);
+                    if (hex.length()==1) hashPass.append('0');
+                    hashPass.append(hex);
+                    
+                    
+                }
+                
+                ResultSet autoResultSet = tableAuto.selection(matriculeField.getText().trim().toUpperCase());
+                int codePers = 0;
+                String mat = null;
+                if(autoResultSet.next()){
+                    codePers = autoResultSet.getInt("code_personne");
+                    mat = autoResultSet.getString("matricule");
+                }
+                
+                ResultSet personne = tablePersonne.getPersonne(codePers);
+                String password = null;
+                String nom = null;
+                if(personne.next()){
+                    password = personne.getString("mot_de_passe");
+                    nom = personne.getString("nom");
+                }
+                
+                if(hashPass.toString().equals(password) && matriculeField.getText().equals(mat)){
+//                    Stage nouveauStage;
+//                    nouveauStage = (Stage) ((Node) arg0.getSource()).getScene().getWindow();
+//                    Scene scene2 = new Scene(new Contravention(nom, mat),800, 800);
+//                    scene2.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+//                    nouveauStage.setScene(scene2);
+                      BorderPane parent = (BorderPane) this.getParent();
+                      parent.setCenter(new Contravention(nom, mat));
+                }else{
+                    //inserer une page d'erreur
+                }
+            } catch (NoSuchAlgorithmException | SQLException ex) {
+                Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-            Stage nouveauStage;
-            nouveauStage = (Stage) ((Node) arg0.getSource()).getScene().getWindow();
-            Scene scene1 = new Scene(new SignUp(),800, 800);
-            nouveauStage.setScene(scene1);
         });
+        
+        
+        
         
     }
     
