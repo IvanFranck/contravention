@@ -2,15 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group/>
-=======
         <group>
-            <file>file:/home/nzima-ivan/NetBeansProjects/Contravention/src/Automobiliste/LogIn.java</file>
-            <file>file:/home/nzima-ivan/NetBeansProjects/Contravention/src/Automobiliste/login.css</file>
+            <file>file:/home/nzima-ivan/NetBeansProjects/Contravention/src/SysCentral/SysCentral.java</file>
+            <file>file:/home/nzima-ivan/NetBeansProjects/Contravention/src/contravention/jsonServer.java</file>
+            <file>file:/home/nzima-ivan/NetBeansProjects/Contravention/src/Automobiliste/AutomobileTableOperation.java</file>
             <file>file:/home/nzima-ivan/NetBeansProjects/Contravention/src/Automobiliste/Automobiliste.java</file>
+            <file>file:/home/nzima-ivan/NetBeansProjects/Contravention/src/contravention/Contraventions.java</file>
             <file>file:/home/nzima-ivan/NetBeansProjects/Contravention/src/Automobiliste/SignUp.java</file>
         </group>
->>>>>>> feature
     </open-files>
 </project-private>

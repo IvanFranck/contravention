@@ -8,6 +8,10 @@ package SysCentral;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -36,8 +40,8 @@ public class AmandeTableOperations extends BDConnection {
      * @param liste_infraction 
      * @throws SQLException
      */
-    public void insertion (String matricule, String liste_infraction) throws SQLException{
-        String requete = "INSERT INTO "+table+ " (matricule, date_debut, liste_infraction) VALUES (?,?,?)";
+    public void insertion (String matricule, String liste_infraction) throws SQLException, ParseException{
+        String requete = "INSERT INTO "+table+ " (matricule, date_debut, date_fin, liste_infraction) VALUES (?,?,?,?)";
         
         //definition de de la requete préparée grace au connecteur de la classe mère
         this.prepareStatement(requete);
@@ -47,13 +51,25 @@ public class AmandeTableOperations extends BDConnection {
         
         // récupération de la date systeme
         Date currentDate = new Date();
-        java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
+        java.sql.Date sqlDateDebut = new java.sql.Date(currentDate.getTime());
+           
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        c.add(Calendar.DATE, 52);  // number of days to add
+        String strDateFin = dateFormat.format(c.getTime());  // dt is now the new date
+        
+        java.sql.Date sqlDateFin = new java.sql.Date(dateFormat.parse(strDateFin).getTime());
         
         // insertion de la date d'édition de l'amande : date systeme courrente
-        pst.setDate(2, sqlDate);
+        pst.setDate(2, sqlDateDebut);
+
+        // insertion de la date délai de l'amande        
+        pst.setDate(3, sqlDateFin);
         
         // insertion de la liste d'infraction sous forme de chaine de caractères séparés par des virgules (ex 01,05,07)
-        pst.setString(3, (String)liste_infraction);
+        pst.setString(4, (String)liste_infraction);
         
         pst.executeUpdate();
         System.out.println("insertion effectuée avec succes");
@@ -90,7 +106,7 @@ public class AmandeTableOperations extends BDConnection {
     
      public ResultSet getInfractions (String matricule) throws SQLException{
         // sekection de la liste d'infractions table Amande dont le matricule correspond à celui entré
-        String requete = "SELECT liste_infraction FROM "+table+" WHERE matricule = \"matricule\"";
+        String requete = "SELECT liste_infraction FROM "+table+" WHERE matricule = \""+matricule+"\"";
         
          //definition de de la requete préparée grace au connecteur de la classe mère
         this.prepareStatement(requete);
@@ -113,4 +129,13 @@ public class AmandeTableOperations extends BDConnection {
         
     }
     
+    public void buy(String matricule) throws SQLException{
+        String requete = "UPDATE "+table+"  SET `statut` = '1' WHERE `amande`.`matricule` = \""+matricule+"\"";
+        
+         //definition de de la requete préparée grace au connecteur de la classe mère
+        this.prepareStatement(requete);
+        
+        pst.executeUpdate();
+        System.out.println("amande réglée");
+    }
 }
