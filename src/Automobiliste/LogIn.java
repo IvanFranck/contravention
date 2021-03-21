@@ -51,6 +51,7 @@ public class LogIn extends BorderPane {
         header.setSpacing(12);
         header.setAlignment(Pos.TOP_RIGHT);
         
+        
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.BASELINE_LEFT);
         grid.setPadding(new Insets(15, 100, 0, 0));
@@ -75,27 +76,7 @@ public class LogIn extends BorderPane {
         this.setId("main");
         this.setCenter(grid);
         
-        BorderPane parent = (BorderPane) this.getParent();
-        Hyperlink signInText = new Hyperlink("Se connecter");
-        
-
-        Hyperlink signUpText = new Hyperlink("Créer un compte");
-
-        header.getChildren().addAll(signInText, signUpText);
-        
-        signInText.setOnAction((ActionEvent)->{
-            
-            parent.setCenter(new LogIn());
-            parent.setTop(header);
-            
-        });
-        
-        signUpText.setOnAction((ActionEvent)->{
-            
-            parent.setCenter(new SignUp());
-            parent.setTop(header);
-            
-        });
+    
         
         Text heyText = new Text("Hey !");
         heyText.setFont(Font.font("Roboto", FontWeight.MEDIUM, 32));
@@ -154,7 +135,7 @@ public class LogIn extends BorderPane {
         grid.add(passGroupBox, 0, 2);
         grid.add(connect, 0, 3);
         
-        
+        connect.setDefaultButton(true);
         connect.setOnAction((ActionEvent arg0)-> {
             MessageDigest md;
             
@@ -222,10 +203,13 @@ public class LogIn extends BorderPane {
                       if(amande.next()){
                           status = amande.getInt("statut");
                       }
+                      BorderPane parentNode = (BorderPane) this.getParent();
                       if(status==1){
-                        parent.setCenter(new NoContravention(nom));
+                        parentNode.setCenter(new NoContravention(nom));
+                        parentNode.setTop(null);
                       }else{
-                        parent.setCenter(new Contravention(nom, newMatricule));
+                        parentNode.setCenter(new Contravention(nom, newMatricule));
+                        parentNode.setTop(null);
                       }
                 }else{
                     //inserer une page d'erreur
@@ -240,9 +224,7 @@ public class LogIn extends BorderPane {
             
         });
         
-        
-        
-        
+            
     }
     
     
