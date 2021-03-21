@@ -12,6 +12,15 @@ and open the template in the editor.
     -fx-background-color: #F7FDFC;
 }
 
+
+.hyperlink:visited{
+    -fx-underline: false;
+}
+
+.hyperlink:hover{
+    -fx-underline: false;
+}
+
 .table-view {
     -fx-border-style: none;
     -fx-border-color: #F7FDFC;
@@ -66,4 +75,13 @@ and open the template in the editor.
     -fx-border-style: solid inside;
     -fx-border-radius: 10px;
     -fx-border-color: rgba(10,41,38,0.2);
+}
+
+
+#btn{
+    -fx-background-color: linear-gradient(#2EC4B6 11.85%, #1A7068 104.8%);
+    -fx-background-radius: 15;
+    -fx-padding: 8;
+    -fx-text-fill: #F7FDFC;
+    -fx-font-size: 15px;
 }

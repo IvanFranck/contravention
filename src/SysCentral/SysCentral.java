@@ -9,12 +9,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -37,8 +31,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -46,9 +42,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -67,23 +66,142 @@ public class SysCentral extends Application implements Runnable{
     private ContraventionTableOperation tableContravention;
     private PosteControleTableOperation tablePoste;
     private SystemeFlashTableOperation tableSystemeFlash;
-    private boolean isTest = true;
+    private final boolean isTest = true;
+    
 
     //data and ui control
     private ObservableList<Contraventions> contraventionList = FXCollections.observableArrayList();
     private TableView<Contraventions> board = new TableView<Contraventions>();
-
+    
+    //interfaces
+    private BorderPane pannelLogin;
+    private BorderPane pannelDahsboard;
+    private final BorderPane mainPannel = new BorderPane();
+    
     @Override
-    public void start(Stage fen) throws SQLException, ClassNotFoundException, ParseException, java.text.ParseException {
+    public void start(Stage stage) throws SQLException, ClassNotFoundException, ParseException, java.text.ParseException {
+
+            
+//        PanelAnnuaire.setCenter(pannelLogin);
+//        PanelAnnuaire.setId("main");
+//        Scene scene = new Scene(PanelAnnuaire, 1500, 800);
+//        scene.getStylesheets().addAll(this.getClass().getResource("back.css").toExternalForm());
+//        
+//        
+//        stage.setTitle("Contravention");
+//
+//        
+//        
+//        
+//        stage.setScene(scene);
+//        stage.show();
+
+        pannelLogin = new BorderPane();
+        mainPannel.setCenter(pannelLogin);
+
+        // login page
+        
+        
+        
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.BASELINE_LEFT);
+        
+        VBox greatingBox = new VBox();
+        
+        VBox matriculeGroupBox = new VBox();
+        matriculeGroupBox.setSpacing(10);
+        matriculeGroupBox.setAlignment(Pos.BASELINE_LEFT); 
+        
+        VBox passGroupBox = new VBox();
+        passGroupBox.setSpacing(10);
+        passGroupBox.setAlignment(Pos.BASELINE_LEFT);
+        
+        GridPane.setMargin(greatingBox, new Insets(210, 0, 80, 350));
+        GridPane.setMargin(matriculeGroupBox, new Insets(0, 0, 20, 350 ));
+        GridPane.setMargin(passGroupBox, new Insets(0, 0, 20, 350 ));
+                
+
+        pannelLogin.setId("main");
+        pannelLogin.setCenter(grid);
+        
+        
+        
+        Text welcomeText = new Text("C'est un plaisir \n de vous revoir chers administrateur");
+        welcomeText.setFont(Font.font("Roboto", FontWeight.MEDIUM, 32));
+        
+        Label matriculeLabel = new Label("login"); 
+        matriculeLabel.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));
+        InputStream inProfil = SysCentral.class.getResourceAsStream("Profile.png");
+        Image img = new Image(inProfil);
+        ImageView view = new ImageView(img);
+        view.setFitHeight(12);
+        view.setFitWidth(12);
+        view.setPreserveRatio(true);
+        matriculeLabel.setGraphic(view);
+        
+        Label pass = new Label("Mot de passe");
+        pass.setFont(Font.font("Roboto", FontWeight.NORMAL, 15));
+        InputStream inPass = SysCentral.class.getResourceAsStream("Password.png");
+        Image imgPass = new Image(inPass);
+        ImageView passView = new ImageView(imgPass);
+        passView.setFitHeight(15);
+        passView.setFitWidth(15);
+        passView.setPreserveRatio(true);
+        pass.setGraphic(passView);
+        
+        
+        TextField matriculeField = new TextField();
+        matriculeField.setPrefWidth(350);
+        matriculeField.prefHeight(20);
+        matriculeField.setPromptText("entrer votre nom d'administrateur");
+        
+        PasswordField passwordField = new PasswordField();
+        passwordField.setPrefWidth(350);
+        passwordField.setPromptText("entrer votre mot de passe");
+        
+        matriculeGroupBox.getChildren().addAll(matriculeLabel, matriculeField);
+        HBox.setMargin(matriculeLabel, new Insets(0, 25, 0,0));
+        passGroupBox.getChildren().addAll(pass, passwordField);
+        
+        greatingBox.getChildren().addAll(welcomeText);
+        
+        
+        InputStream inputArrow = SysCentral.class.getResourceAsStream("Arrow-Right-Circle.png");
+        Image imgarrow = new Image(inputArrow);
+        ImageView btnView = new ImageView(imgarrow);
+        btnView.setFitHeight(15);
+        btnView.setFitWidth(15);
+        Button connect = new Button("Se connecter", btnView);
+        connect.setId("btn");
+        connect.setAlignment(Pos.BASELINE_CENTER);
+        GridPane.setMargin(connect, new Insets(25, 100, 0, 350));
+        
+        grid.add(greatingBox, 0, 0);
+        grid.add(matriculeGroupBox, 0, 1);
+        grid.add(passGroupBox, 0, 2);
+        grid.add(connect, 0, 3);
+        
+        connect.setOnAction((ActionEvent)->{
+            if(passwordField.getText().trim().equals("admin")){
+                mainPannel.setCenter(pannelDahsboard);
+            }
+        });
+
+        
+
+
+
+
 
         board.setEditable(true);
         board.setFixedCellSize(30);
         
-        String matricule = null;
-        int idAmande = 0;
-        Date dateDebut = null;
-        Date dateFin = null;
-        int statut = 0;
+        
+        String matricule;
+        int idAmande;
+        Date dateDebut;
+        Date dateFin;
+        int statut;
         int amandeTotal = 0;
         int amandeImpayées = 0;
 
@@ -95,7 +213,7 @@ public class SysCentral extends Application implements Runnable{
         int[] prixTable = new int[5];
 //        int[] codeTable = new int[5];
         int compteur = 0;
-        int montantAmande = 0; 
+        int montantAmande; 
         int finances = 0;
         
         ResultSet allContravenSet = tableContravention.selectionAll();
@@ -117,14 +235,14 @@ public class SysCentral extends Application implements Runnable{
             dateFin = allAmandeResultSet.getDate("date_fin");
             statut = allAmandeResultSet.getInt("statut");
              
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+            DateFormat dateFormat = new SimpleDateFormat("dd-MMMM-yyyy");
             String strDateDebut = dateFormat.format(dateDebut);
             String strDateFin = dateFormat.format(dateFin);
             
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy");
             Calendar c = Calendar.getInstance();
             c.setTime(sdf.parse(strDateDebut));
-            c.add(Calendar.DATE, 52);  // number of days to add
+            c.add(Calendar.MONTH, 1);  // number of days to add
             strDateFin = sdf.format(c.getTime());  // dt is now the new date
             
             
@@ -164,32 +282,69 @@ public class SysCentral extends Application implements Runnable{
         
         
 
-        BorderPane body = new BorderPane();
-        body.setId("body");
+        pannelDahsboard = new BorderPane();
+        pannelDahsboard.setId("body");
 
-        Scene scene = new Scene(body, 1500, 800);
+        Scene scene = new Scene(mainPannel, 1500, 800);
         scene.getStylesheets().add(this.getClass().getResource("back.css").toExternalForm());
-        fen.setScene(scene);
-
-        GridPane grid = new GridPane();
-        body.setCenter(grid);
+        stage.setScene(scene);
+        
+        HBox header = new HBox();
+        header.setPadding(new Insets(10, 50, 0, 0));
+        header.setId("header");
+        header.setSpacing(12);
+        header.setAlignment(Pos.TOP_RIGHT);
+        
+        GridPane mainGrid = new GridPane();
+        pannelDahsboard.setCenter(mainGrid);
 
         VBox BorderBox = new VBox();
-        body.setRight(BorderBox);
+        pannelDahsboard.setRight(BorderBox);
 
         HBox stat = new HBox();
         stat.setSpacing(20);
         
         HBox greating = new HBox();
-        grid.add(greating, 0, 0);
+        mainGrid.add(greating, 0, 0);
 
         GridPane.setMargin(greating, new Insets(80, 16, 16, 16));
         GridPane.setMargin(stat, new Insets(0, 16, 24, 16));
         GridPane.setMargin(board, new Insets(0, 16, 0, 16));
 
         
+        Hyperlink logout = new Hyperlink();
+        InputStream input = SysCentral.class.getResourceAsStream("logout.png");
+        Image imgLogout = new Image(input);
+        ImageView logoutView = new ImageView(imgLogout);
+        logoutView.setFitHeight(20);
+        logoutView.setFitWidth(16);
+        logout.setGraphic(logoutView);
+        
+        logout.setOnAction(((event) -> {
+            mainPannel.setCenter(pannelLogin);
+        }));
+        
+        
+        Hyperlink refresh = new Hyperlink();
+        InputStream input2 = SysCentral.class.getResourceAsStream("refresh.png");
+        Image imgRefresh = new Image(input2);
+        ImageView refreshView = new ImageView(imgRefresh);
+        refreshView.setFitHeight(20);
+        refreshView.setFitWidth(20);
+        refresh.setGraphic(refreshView);
+        
+        refresh.setOnAction((ActionEvent)->{
+            // à revoir
+            board.refresh();
+            
+        });
+        
+        header.getChildren().addAll(refresh, logout);
+       
 
-        Text hello = new Text("Hello their admin !");
+        pannelDahsboard.setTop(header);
+        
+        Text hello = new Text("Hello cher administrateur !");
         hello.setFont(Font.font("Roboto", FontWeight.MEDIUM, 25));
         greating.getChildren().add(hello);
 
@@ -279,7 +434,7 @@ public class SysCentral extends Application implements Runnable{
         
         stat.getChildren().addAll(encoursBox, buyBox, financesBox);
         
-        grid.add(stat, 0, 1);
+        mainGrid.add(stat, 0, 1);
 
         // liste observable
         TableColumn idColumn = new TableColumn("ID");
@@ -310,7 +465,9 @@ public class SysCentral extends Application implements Runnable{
         board.getColumns().addAll(idColumn, matriculeColumn,
                 dateDebutColumn, dateFinColumn, montantColumn, statutColumn);
 
-        grid.add(board, 0, 2);
+        mainGrid.add(board, 0, 2);
+        
+        stage.show();
 
 //        GridPane grid = new GridPane();
 //        grid.setAlignment(Pos.CENTER);
@@ -403,7 +560,6 @@ public class SysCentral extends Application implements Runnable{
 //            
 //        });
 //        
-        fen.show();
     }
 
     /**
@@ -455,7 +611,7 @@ public class SysCentral extends Application implements Runnable{
                 JSONObject list = (JSONObject) jsonMsg.get("infractions");
                 String infractions = list.toString() ;
                 
-                tableAuto.insertion(matricule);
+                tableAuto.insertion(matricule,1);
                 
                 tableAmande.insertion(matricule, infractions);
                 

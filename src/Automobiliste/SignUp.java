@@ -132,6 +132,8 @@ public class SignUp extends BorderPane {
         this.setCenter(grid);
         this.setBottom(retour);
        
+        BorderPane parent = (BorderPane) this.getParent();
+        
         
         Text heyText = new Text("Créer votre compte");
         heyText.setFont(Font.font("Roboto", FontWeight.MEDIUM, 32));
@@ -281,6 +283,7 @@ public class SignUp extends BorderPane {
         grid.add(linkBox, 0, 2);
         
         
+        
         suiv.setOnAction((ActionEvent)->{
             
 //            prec.setDisable(false);
@@ -336,17 +339,17 @@ public class SignUp extends BorderPane {
 
                 java.sql.Date sDateNai = convertUtilToSql(dateNai);
                 
-                
-                personneTable.insertion(nomField.getText(), prenomField.getText(), numCNIField.getText(), sDateNai, professionField.getText(),
-                        Integer.parseInt(telField.getText().trim()), mailField.getText(), adresseField.getText(), hashPass.toString());
-                
+                //enregistrement d'une personne
+//                personneTable.insertion(nomField.getText(), prenomField.getText(), numCNIField.getText(), sDateNai, professionField.getText(),
+//                        Integer.parseInt(telField.getText().trim()), mailField.getText(), adresseField.getText(), hashPass.toString());
+//                
                 
 
                 // formatage du matricule
                 String [] table = matriculeField.getText().trim().split(" ");
                 String newMatricule;
                 
-                if(table.length == 1){
+                if(table.length == 1 ){
                     String[] chars = matriculeField.getText().trim().split("");
                     newMatricule = String.join(" ", chars[0]+chars[1], chars[2]+chars[3]+chars[4], chars[5]+chars[6]).toUpperCase();
                      
@@ -360,9 +363,11 @@ public class SignUp extends BorderPane {
                 int code = 1;
                 if(getCodeResult.next()){
                     code = getCodeResult.getInt("code_personne");
+                    
                 }
-                automobileTable.insertion(newMatricule, code);
-                
+                System.out.println("code_personne : "+code);
+                System.out.println("matricule : "+newMatricule);
+//                automobileTable.update(newMatricule, code);
                 
 
             } catch (SQLException | ClassNotFoundException | NoSuchAlgorithmException ex) {

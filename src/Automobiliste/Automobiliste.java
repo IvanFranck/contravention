@@ -14,8 +14,6 @@ import javafx.stage.Stage;
 
 import SysCentral.AmandeTableOperations;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.HBox;
@@ -28,21 +26,19 @@ import org.json.simple.parser.ParseException;
 public class Automobiliste extends Application {
 
     private final boolean isTest = true;
-    private final String matricule = "ES 084 HA";
     private AmandeTableOperations amandeTable;
     private final InputStream arrowBackOutline = Automobiliste.class.getResourceAsStream("/Icons/arrow-back-outline.png");
 
     private final BorderPane PanelAnnuaire = new BorderPane();
     private final BorderPane panelSignup = new SignUp();
     private final BorderPane panelLogIn = new LogIn();
-    private Contravention panelContravention;
 
 
 
     @Override
     public void start(Stage stage) throws ClassNotFoundException, SQLException, ParseException {
         
-        PanelAnnuaire.setCenter(new Contravention("john", "AD 661 XE"));
+        PanelAnnuaire.setCenter(panelLogIn);
         PanelAnnuaire.setId("main");
         Scene scene = new Scene(PanelAnnuaire, 800, 800);
         scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
@@ -54,7 +50,7 @@ public class Automobiliste extends Application {
         
         PanelAnnuaire.setTop(header);
         
-        stage.setTitle("COntravention");
+        stage.setTitle("Contravention");
 
         
         Hyperlink signInText = new Hyperlink("Se connecter");

@@ -68,7 +68,7 @@ public class PersonneTableOperation extends BDConnection {
 //        pst.setString(3, (String)liste_infraction);
         
         pst.executeUpdate();
-        System.out.println("insertion effectuée avec succes");
+        System.out.println("insertion nouvelle personne effectuée avec succes");
         
     }
     

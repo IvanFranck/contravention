@@ -5,6 +5,7 @@
  */
 package Automobiliste;
 
+import SysCentral.AmandeTableOperations;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,11 +14,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -32,7 +30,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import org.json.simple.parser.ParseException;
 
 /**
@@ -45,9 +42,14 @@ public class LogIn extends BorderPane {
     private final boolean isTest = true;
     private PersonneTableOperation tablePersonne;
     private AutomobileTableOperation tableAuto;
+    private AmandeTableOperations amandeTable;
     
     public LogIn() {
         
+        HBox header = new HBox();
+        header.setId("header");
+        header.setSpacing(12);
+        header.setAlignment(Pos.TOP_RIGHT);
         
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.BASELINE_LEFT);
@@ -73,7 +75,27 @@ public class LogIn extends BorderPane {
         this.setId("main");
         this.setCenter(grid);
         
+        BorderPane parent = (BorderPane) this.getParent();
+        Hyperlink signInText = new Hyperlink("Se connecter");
         
+
+        Hyperlink signUpText = new Hyperlink("Créer un compte");
+
+        header.getChildren().addAll(signInText, signUpText);
+        
+        signInText.setOnAction((ActionEvent)->{
+            
+            parent.setCenter(new LogIn());
+            parent.setTop(header);
+            
+        });
+        
+        signUpText.setOnAction((ActionEvent)->{
+            
+            parent.setCenter(new SignUp());
+            parent.setTop(header);
+            
+        });
         
         Text heyText = new Text("Hey !");
         heyText.setFont(Font.font("Roboto", FontWeight.MEDIUM, 32));
@@ -157,7 +179,21 @@ public class LogIn extends BorderPane {
                     
                 }
                 
-                ResultSet autoResultSet = tableAuto.selection(matriculeField.getText().trim().toUpperCase());
+                 // formatage du matricule
+                String [] table = matriculeField.getText().trim().split(" ");
+                String newMatricule;
+                
+                if(table.length == 1 ){
+                    String[] chars = matriculeField.getText().trim().split("");
+                    newMatricule = String.join(" ", chars[0]+chars[1], chars[2]+chars[3]+chars[4], chars[5]+chars[6]).toUpperCase();
+                     
+                }else{
+                    newMatricule  = matriculeField.getText().toUpperCase();
+                }
+                
+                
+                
+                ResultSet autoResultSet = tableAuto.selection(newMatricule);
                 int codePers = 0;
                 String mat = null;
                 if(autoResultSet.next()){
@@ -179,14 +215,26 @@ public class LogIn extends BorderPane {
 //                    Scene scene2 = new Scene(new Contravention(nom, mat),800, 800);
 //                    scene2.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
 //                    nouveauStage.setScene(scene2);
-                      BorderPane parent = (BorderPane) this.getParent();
-                      parent.setCenter(new NoContravention(nom));
+                      amandeTable = new AmandeTableOperations(isTest);
+                      ResultSet amande;
+                      amande = amandeTable.selection(newMatricule);
+                      int status = 0;
+                      if(amande.next()){
+                          status = amande.getInt("statut");
+                      }
+                      if(status==1){
+                        parent.setCenter(new NoContravention(nom));
+                      }else{
+                        parent.setCenter(new Contravention(nom, newMatricule));
+                      }
                 }else{
                     //inserer une page d'erreur
                 }
             } catch (NoSuchAlgorithmException | SQLException ex) {
                 Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
                 Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
             }
             

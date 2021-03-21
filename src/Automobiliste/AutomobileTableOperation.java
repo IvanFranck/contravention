@@ -30,20 +30,14 @@ public class AutomobileTableOperation extends BDConnection {
         pst = super.con.prepareStatement(requete);
     }
     
-    public void insertion (String matricule) throws SQLException{
-        String requete = "INSERT INTO "+table+ " (matricule, code_personne) VALUES (?,?)";
-        
+    public void update (String matricule, int code_proprio) throws SQLException{
+        String requete = "UPDATE "+table+ " SET code_personne = "+code_proprio+" WHERE matricule = '"+matricule+"'";
+
         //definition de de la requete préparée grace au connecteur de la classe mère
         this.prepareStatement(requete);
-       
-        // insertion du matricule dans la table
-        pst.setString(1, (String)matricule);
-      
-        // insertion du code du proprio de l'auto
-        pst.setInt(2, DEFAULT_PROPRIO);
         
         pst.executeUpdate();
-        System.out.println("insertion effectuée avec succes");
+        System.out.println("mise à jour de l'automobiliste éffectuée avec succes");
     }
     
     public void insertion (String matricule, int codeProprio) throws SQLException{

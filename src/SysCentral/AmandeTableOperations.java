@@ -39,6 +39,7 @@ public class AmandeTableOperations extends BDConnection {
      * @param matricule matricule of car
      * @param liste_infraction 
      * @throws SQLException
+     * @throws java.text.ParseException
      */
     public void insertion (String matricule, String liste_infraction) throws SQLException, ParseException{
         String requete = "INSERT INTO "+table+ " (matricule, date_debut, date_fin, liste_infraction) VALUES (?,?,?,?)";
@@ -57,7 +58,7 @@ public class AmandeTableOperations extends BDConnection {
 
         Calendar c = Calendar.getInstance();
         c.setTime(currentDate);
-        c.add(Calendar.DATE, 52);  // number of days to add
+        c.add(Calendar.MONTH, 1);  // number of days to add
         String strDateFin = dateFormat.format(c.getTime());  // dt is now the new date
         
         java.sql.Date sqlDateFin = new java.sql.Date(dateFormat.parse(strDateFin).getTime());
